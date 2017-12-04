@@ -13,9 +13,16 @@ class FiguresController < ApplicationController
 
   post '/figures' do
 
-    @figure = Figure.new
-    @figure.name = params[:figure][:name]
-    @figure.title = params[:figure][:title_ids][]
+    @figure = Figure.create(params["figure"])
+    binding.pry
+    if !params[:landmark][:name].empty?
+      @figure.landmarks << Landmark.create(name: params[:landmark])
+    end
+
+    if !params[:title][:name].empty?
+      @figure.titles << Title.create(name: params[:title])
+
+    end
     @figure.save
     redirect to '/figures'
   end
